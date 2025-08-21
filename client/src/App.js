@@ -108,16 +108,16 @@ function App() {
               } 
             />
 
-            <Route 
-              path="/tasks" 
-              element={
-                <ProtectedRoute>
-                  <Layout>
-                    <Tasks />
-                  </Layout>
-                </ProtectedRoute>
-              } 
-            />
+              <Route 
+                path="/tasks" 
+                element={
+                  <ProtectedRoute>
+                    <Layout>
+                      <Tasks />
+                    </Layout>
+                  </ProtectedRoute>
+                } 
+              />
 
             {/* Nova rota para criar tarefa */}
             <Route 

@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import api from '../services/api';
-import { Plus, CheckSquare, User, Calendar } from 'lucide-react';
+import { Plus, CheckSquare, User, Calendar, Trash2 } from 'lucide-react';
 import toast from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom'; // 👈 pega o ID da rota
 
 const Tasks = () => {
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const navigate = useNavigate(); // ← inicializa o navigate aqui
+  const navigate = useNavigate();
+  const { id: projectId } = useParams(); // Captura o ID do projeto da rota
 
   useEffect(() => {
     fetchTasks();
@@ -16,12 +17,39 @@ const Tasks = () => {
 
   const fetchTasks = async () => {
     try {
-      const response = await api.get('/api/tasks');
+      const response = await api.get('/api/tasks'); // Chama a nova rota
       setTasks(response.data);
     } catch (error) {
+      console.error('Error fetching tasks:', error);
       toast.error('Erro ao carregar tarefas');
     } finally {
       setLoading(false);
+    }
+  };
+
+  // 🔴 Função para deletar tarefa
+  const deleteTask = async (id) => {
+    if (!window.confirm("Tem certeza que deseja deletar esta tarefa?")) return;
+
+    try {
+      await api.delete(`/api/tasks/${id}`);
+      toast.success("Tarefa deletada com sucesso!");
+      setTasks(tasks.filter((task) => task.id !== id));
+    } catch (error) {
+      toast.error("Erro ao deletar tarefa");
+    }
+  };
+
+  // 🔴 Função para deletar projeto (agora usando projectId real)
+  const deleteProject = async () => {
+    if (!window.confirm("Tem certeza que deseja deletar este projeto?")) return;
+
+    try {
+      await api.delete(`/api/projects/${projectId}`);
+      toast.success("Projeto deletado com sucesso!");
+      navigate("/projects"); // redireciona p/ lista de projetos
+    } catch (error) {
+      toast.error("Erro ao deletar projeto");
     }
   };
 
@@ -56,13 +84,22 @@ const Tasks = () => {
       {/* Header */}
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold text-gray-900">Tarefas</h1>
-        <button
-          onClick={() => navigate("/tasks/create")}
-          className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
-        >
-          <Plus className="h-4 w-4 mr-2" />
-          Nova Tarefa
-        </button>
+        <div className="flex space-x-2">
+          <button
+            onClick={() => navigate(`/projects/${projectId}/tasks/create`)}
+            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary-600 hover:bg-primary-700"
+          >
+            <Plus className="h-4 w-4 mr-2" />
+            Nova Tarefa
+          </button>
+          <button
+            onClick={deleteProject}
+            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700"
+          >
+            <Trash2 className="h-4 w-4 mr-2" />
+            Deletar Projeto
+          </button>
+        </div>
       </div>
 
       {/* Lista de tarefas */}
@@ -100,6 +137,14 @@ const Tasks = () => {
                     <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(task.status)}`}>
                       {task.status}
                     </span>
+                    {/* Botão Deletar Tarefa */}
+                    <button
+                      onClick={() => deleteTask(task.id)}
+                      className="ml-2 inline-flex items-center px-2 py-1 border border-transparent text-xs font-medium rounded-md text-white bg-red-600 hover:bg-red-700"
+                    >
+                      <Trash2 className="h-4 w-4 mr-1" />
+                      Deletar
+                    </button>
                   </div>
                 </div>
               </li>
@@ -111,15 +156,6 @@ const Tasks = () => {
               <p className="mt-1 text-sm text-gray-500">
                 Comece criando sua primeira tarefa.
               </p>
-              <div className="mt-6">
-                <button
-                  onClick={() => navigate("/tasks/create")}
-                  className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
-                >
-                  <Plus className="h-4 w-4 mr-2" />
-                  Criar Tarefa
-                </button>
-              </div>
             </li>
           )}
         </ul>

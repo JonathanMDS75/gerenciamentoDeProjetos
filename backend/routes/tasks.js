@@ -48,7 +48,7 @@ router.get('/', (req, res) => {
 });
 
 // Buscar tarefa por ID
-router.get('/:id', (req, res) => {
+router.get('/projects/:id/tasks', (req, res) => {
   const { id } = req.params;
   
   const query = `

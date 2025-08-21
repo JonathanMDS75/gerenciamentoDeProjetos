@@ -241,4 +241,21 @@ router.post('/:id/members', [
   }
 });
 
+router.get('/tasks', (req, res) => {
+  const query = `
+    SELECT t.*, u.name as assigned_to_name, p.name as project_name
+    FROM tasks t
+    LEFT JOIN users u ON t.assigned_to = u.id
+    LEFT JOIN projects p ON t.project_id = p.id
+  `;
+
+  db.all(query, [], (err, tasks) => {
+    if (err) {
+      return res.status(500).json({ message: 'Erro ao buscar tarefas' });
+    }
+
+    res.json(tasks);
+  });
+});
+
 module.exports = router; 
