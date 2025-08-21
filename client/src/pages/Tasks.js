@@ -2,10 +2,13 @@ import React, { useState, useEffect } from 'react';
 import api from '../services/api';
 import { Plus, CheckSquare, User, Calendar } from 'lucide-react';
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 const Tasks = () => {
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const navigate = useNavigate(); // ← inicializa o navigate aqui
 
   useEffect(() => {
     fetchTasks();
@@ -53,7 +56,10 @@ const Tasks = () => {
       {/* Header */}
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold text-gray-900">Tarefas</h1>
-        <button className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+        <button
+          onClick={() => navigate("/tasks/create")}
+          className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
+        >
           <Plus className="h-4 w-4 mr-2" />
           Nova Tarefa
         </button>
@@ -106,7 +112,10 @@ const Tasks = () => {
                 Comece criando sua primeira tarefa.
               </p>
               <div className="mt-6">
-                <button className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+                <button
+                  onClick={() => navigate("/tasks/create")}
+                  className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
+                >
                   <Plus className="h-4 w-4 mr-2" />
                   Criar Tarefa
                 </button>
@@ -119,4 +128,4 @@ const Tasks = () => {
   );
 };
 
-export default Tasks; 
+export default Tasks;

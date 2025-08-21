@@ -55,10 +55,13 @@ const Projects = () => {
       {/* Header */}
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold text-gray-900">Projetos</h1>
-        <button className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+        <Link
+          to="/projects/create"
+          className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
+        >
           <Plus className="h-4 w-4 mr-2" />
           Novo Projeto
-        </button>
+        </Link>
       </div>
 
       {/* Grid de projetos */}
@@ -122,10 +125,13 @@ const Projects = () => {
               Comece criando seu primeiro projeto.
             </p>
             <div className="mt-6">
-              <button className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+              <Link
+                to="/projects/create"
+                className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
+              >
                 <Plus className="h-4 w-4 mr-2" />
                 Criar Projeto
-              </button>
+              </Link>
             </div>
           </div>
         )}
@@ -134,4 +140,4 @@ const Projects = () => {
   );
 };
 
-export default Projects; 
+export default Projects;

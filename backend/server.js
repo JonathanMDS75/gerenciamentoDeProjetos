@@ -25,7 +25,13 @@ const limiter = rateLimit({
 app.use(limiter);
 
 // Middleware
-app.use(cors());
+const corsOptions = {
+  origin: 'http://localhost:3000', // Permitir apenas o frontend
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'], // Métodos permitidos
+  allowedHeaders: ['Content-Type', 'Authorization'], // Cabeçalhos permitidos
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -68,4 +74,4 @@ initDatabase().then(() => {
 }).catch(err => {
   console.error('Erro ao inicializar banco de dados:', err);
   process.exit(1);
-}); 
+});

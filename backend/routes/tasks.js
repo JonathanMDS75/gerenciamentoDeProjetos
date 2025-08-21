@@ -82,11 +82,6 @@ router.post('/', [
   body('project_id').isInt().withMessage('ID do projeto é obrigatório')
 ], (req, res) => {
   try {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-
     const { title, description, priority, due_date, assigned_to, project_id } = req.body;
 
     // Verificar se o projeto existe

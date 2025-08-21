@@ -10,8 +10,9 @@ import Tasks from './pages/Tasks';
 import Users from './pages/Users';
 import Profile from './pages/Profile';
 import Layout from './components/Layout';
+import CreateProject from './pages/CreateProject';
+import CreateTask from './pages/CreateTask';  // <-- Import adicionado
 
-// Componente para rotas protegidas
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuth();
   
@@ -26,7 +27,6 @@ const ProtectedRoute = ({ children }) => {
   return user ? children : <Navigate to="/login" />;
 };
 
-// Componente para rotas públicas (quando já logado)
 const PublicRoute = ({ children }) => {
   const { user, loading } = useAuth();
   
@@ -87,6 +87,17 @@ function App() {
               } 
             />
             <Route 
+              path="/projects/create"
+              element={
+                <ProtectedRoute>
+                  <Layout>
+                    <CreateProject />
+                  </Layout>
+                </ProtectedRoute>
+              } 
+            />
+
+            <Route 
               path="/projects/:id" 
               element={
                 <ProtectedRoute>
@@ -96,6 +107,7 @@ function App() {
                 </ProtectedRoute>
               } 
             />
+
             <Route 
               path="/tasks" 
               element={
@@ -106,6 +118,19 @@ function App() {
                 </ProtectedRoute>
               } 
             />
+
+            {/* Nova rota para criar tarefa */}
+            <Route 
+              path="/tasks/create"  // <-- Adicione essa rota
+              element={
+                <ProtectedRoute>
+                  <Layout>
+                    <CreateTask />
+                  </Layout>
+                </ProtectedRoute>
+              } 
+            />
+
             <Route 
               path="/users" 
               element={
@@ -136,4 +161,4 @@ function App() {
   );
 }
 
-export default App; 
+export default App;

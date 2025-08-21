@@ -17,8 +17,8 @@ database/database.sqlite
 *.sqlite3
 
 # Build outputs
-client/build/
-client/dist/
+../../client/node_modules/
+
 build/
 dist/
 
@@ -74,4 +74,4 @@ Thumbs.db
 
 # Temporary files
 *.tmp
-*.temp 
+*.temp
