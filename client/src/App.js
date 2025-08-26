@@ -121,7 +121,7 @@ function App() {
 
             {/* Nova rota para criar tarefa */}
             <Route 
-              path="/tasks/create"  // <-- Adicione essa rota
+              path="/tasks/create" 
               element={
                 <ProtectedRoute>
                   <Layout>
